@@ -1,0 +1,441 @@
+<title>Audit SAS Alain Javault</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+/* Layout: DA vincentgaboret.fr — bandes pleine largeur papier / encre / acide, grilles à filets, titres serif géants. Univers unique, clair. */
+:root{
+  --ink:#10110f;--paper:#eeeade;--acid:#d7ff32;--orange:#ff5c35;--violet:#7560ff;--line:#b7b3a8;
+  --muted:#595b55;--dim:#adada7;--white:#ffffff;
+  --crit:#ff5c35;--high:#a86a00;--mid:#7560ff;--ok:#3f8f2a;
+  --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+  --sans:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+.wrap{padding-inline:max(16px,6vw)}
+.label{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+h1,h2,h3{font-family:var(--serif);font-weight:400;text-wrap:balance;margin:0}
+h2{font-size:clamp(46px,7vw,110px);line-height:.9;letter-spacing:-.045em;margin-block:40px 50px}
+h2 em{color:var(--violet)}
+.dark h2 em{color:var(--acid)}
+.num{font-variant-numeric:tabular-nums}
+
+/* Nav */
+.nav{display:flex;justify-content:space-between;align-items:center;gap:16px;height:72px;border-bottom:1px solid var(--line)}
+.monogram{font-size:24px;font-weight:800;letter-spacing:-.08em;text-decoration:none}.monogram span{color:var(--orange)}
+.nav nav{display:flex;gap:28px;font-size:12px;font-weight:600}
+.nav nav a{text-decoration:none}.nav nav a:hover{opacity:.55}
+
+/* Hero */
+.hero{padding-block:8vh 70px;position:relative;overflow:hidden}
+.kicker{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.kicker i{width:8px;height:8px;border-radius:50%;background:var(--crit);box-shadow:0 0 0 5px #ff5c3530;flex:none;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 9px #ff5c3500}}
+.hero h1{font-size:clamp(64px,11vw,176px);line-height:.8;letter-spacing:-.06em;margin-block:5vh 50px;position:relative;z-index:1}
+.hero h1 em{color:var(--violet)}
+.hero-grid{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end;position:relative;z-index:1}
+.hero-grid p{max-width:560px;font-size:clamp(16px,1.4vw,20px);line-height:1.5;margin:0}
+.verdict{background:var(--ink);color:var(--white);padding:26px 30px;min-width:0;max-width:100%}
+.verdict .label{color:var(--acid)}
+.verdict strong{display:block;font:clamp(58px,7vw,104px)/.9 var(--serif);letter-spacing:-.04em;margin-block:14px 8px}
+.verdict small{color:var(--dim);font-size:12px}
+.orbit{position:absolute;border:1px solid #10110f2e;border-radius:50%;pointer-events:none}
+.o1{width:44vw;height:44vw;right:-12vw;top:2vh}.o2{width:30vw;height:30vw;right:-4vw;top:10vh}
+
+/* Bandeau alerte */
+.alert{background:var(--orange);color:var(--ink);padding-block:22px;display:flex;gap:18px 40px;flex-wrap:wrap;align-items:baseline;font-weight:600}
+.alert b{font:italic 30px/1 var(--serif);font-weight:400}
+.alert code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:#10110f14;padding:2px 6px}
+
+/* Sections */
+section{padding-block:110px}
+.dark{background:var(--ink);color:var(--white)}
+.acid{background:var(--acid)}
+.lede{max-width:62ch;font-size:17px;line-height:1.7;color:var(--muted);margin:0 0 50px}
+.dark .lede{color:#c7c7bf}
+
+/* Contexte chiffres */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #ffffff44}
+.facts div{padding:30px 22px 40px;border-right:1px solid #ffffff44;display:flex;flex-direction:column;gap:10px;min-width:0}
+.facts div:first-child{padding-left:0}.facts div:last-child{border-right:0}
+.facts strong{font:clamp(44px,5vw,76px)/.9 var(--serif);font-weight:400;letter-spacing:-.03em}
+.facts .neg{color:var(--orange)}
+.facts span{font-size:12px;color:var(--dim);line-height:1.5}
+.facts b{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--acid)}
+.insight{margin-top:50px;font:clamp(28px,3.2vw,46px)/1.1 var(--serif);max-width:24ch}
+.insight em{color:var(--acid)}
+
+/* Constats */
+.findings{border-top:1px solid var(--ink)}
+.finding{display:grid;grid-template-columns:130px minmax(0,1fr) minmax(0,1.1fr);gap:30px;padding-block:30px;border-bottom:1px solid var(--line);align-items:start}
+.chip{display:inline-flex;align-items:center;gap:7px;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:6px 10px;border:1px solid currentColor;justify-self:start}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.c-crit{color:var(--crit)}.c-high{color:var(--high)}.c-mid{color:var(--mid)}.c-ok{color:var(--ok)}
+.finding h3{font-size:clamp(26px,2.6vw,36px);line-height:1.05}
+.finding p{margin:0;color:var(--muted);line-height:1.65}
+.finding p+p{margin-top:8px}
+.proof{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink);background:#10110f0d;padding:2px 6px;word-break:break-word}
+
+/* Fuites */
+.leaks{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ink)}
+.leaks article{padding:30px 24px 40px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:14px;min-width:0}
+.leaks article:first-child{padding-left:0}.leaks article:last-child{border-right:0}
+.leaks b{font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+.leaks h3{font-size:32px;line-height:1}
+.leaks p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+.leaks .amount{font:italic 30px/1 var(--serif);color:var(--violet);margin-top:auto}
+
+/* Calculateur */
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5vw;border-top:1px solid var(--ink);padding-top:40px}
+.presets{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px}
+.presets button{appearance:none;font:700 12px var(--sans);padding:12px 16px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+.presets button[aria-pressed="true"]{background:var(--ink);color:var(--acid)}
+.field{display:grid;grid-template-columns:1fr auto;gap:6px 16px;padding-block:14px;border-bottom:1px solid #10110f33}
+.field label{font-size:13px;font-weight:600}
+.field output{font-weight:800;font-size:14px;font-variant-numeric:tabular-nums}
+.field input{grid-column:1/-1;width:100%;accent-color:var(--ink);height:22px}
+.field small{grid-column:1/-1;color:#4a4c45;font-size:12px}
+.results{background:var(--ink);color:var(--white);padding:34px;display:flex;flex-direction:column;gap:0;align-self:start;position:sticky;top:20px;min-width:0}
+.results .label{color:var(--acid)}
+.big{font:clamp(60px,7vw,108px)/.9 var(--serif);letter-spacing:-.04em;margin-block:14px 6px}
+.results .sub{color:var(--dim);font-size:13px;margin:0 0 26px}
+.rows{display:flex;flex-direction:column;border-top:1px solid #ffffff33}
+.rows div{display:flex;justify-content:space-between;gap:16px;padding-block:12px;border-bottom:1px solid #ffffff22;font-size:14px}
+.rows dt{color:#c7c7bf}
+.rows dd{margin:0;font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
+.rows .hl dd{color:var(--acid)}
+.roi{margin-top:24px;padding:18px;border:1px solid var(--acid);display:flex;flex-direction:column;gap:10px}
+.roi label{font-size:12px;color:#c7c7bf;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.roi input{font:700 15px var(--sans);width:110px;padding:8px;background:transparent;color:var(--white);border:1px solid #ffffff55;text-align:right}
+.roi p{margin:0;font:italic 26px/1.15 var(--serif)}
+.roi p span{color:var(--acid);font-style:normal}
+
+/* Scénarios */
+.scen{margin-top:70px;border-top:1px solid var(--ink);padding-top:30px}
+.scen h3{font-size:34px;margin-bottom:24px}
+.bar-row{display:grid;grid-template-columns:130px minmax(0,1fr) 120px;gap:18px;align-items:center;padding-block:10px}
+.bar-row span{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.track{height:34px;background:#10110f10;position:relative}
+.fill{height:100%;background:var(--ink);transition:width .5s ease}
+.bar-row.active .fill{background:var(--violet)}
+.bar-row strong{font:28px/1 var(--serif);font-weight:400;text-align:right;font-variant-numeric:tabular-nums}
+.scale{display:grid;grid-template-columns:130px minmax(0,1fr) 120px;gap:18px;font-size:11px;color:var(--muted)}
+.scale div{display:flex;justify-content:space-between}
+
+/* Plan */
+.timeline{border-top:1px solid var(--white)}
+.timeline article{display:grid;grid-template-columns:25% minmax(0,1fr);gap:20px;border-bottom:1px solid #ffffff33;padding-block:30px}
+.timeline time{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acid)}
+.timeline h3{font-size:34px;margin-bottom:8px}
+.timeline p{margin:0;color:#c7c7bf;max-width:62ch;line-height:1.65}
+
+/* Méthode */
+.method{display:grid;grid-template-columns:1fr 1fr;gap:5vw;border-top:1px solid var(--ink);padding-top:30px}
+.method h3{font-size:30px;margin-bottom:14px}
+.method ul{margin:0;padding-left:18px;color:var(--muted);line-height:1.7;font-size:14px}
+.method li+li{margin-top:6px}
+
+/* Contact */
+.cta h2{margin-top:30px}
+.links{display:flex;border-top:1px solid var(--ink)}
+.links a{flex:1;padding:24px 0;font-size:13px;font-weight:700;border-right:1px solid var(--ink);text-decoration:none}
+.links a:not(:first-child){padding-left:24px}.links a:last-child{border-right:0}
+footer{background:var(--ink);color:var(--white);padding-block:30px;display:flex;justify-content:space-between;gap:16px;font-size:11px;flex-wrap:wrap}
+footer p{margin:0;color:var(--dim)}
+
+@media(max-width:900px){
+  .nav nav{display:none}
+  .hero-grid{grid-template-columns:1fr}
+  .facts,.leaks{grid-template-columns:1fr 1fr}
+  .facts div:nth-child(2),.leaks article:nth-child(2){border-right:0}
+  .facts div:nth-child(3),.leaks article:nth-child(3){padding-left:0}
+  .facts div:nth-child(-n+2),.leaks article:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .finding{grid-template-columns:1fr;gap:12px}
+  .calc,.method{grid-template-columns:1fr}
+  .results{position:static}
+  .timeline article{grid-template-columns:1fr;gap:10px}
+}
+@media(max-width:560px){
+  section{padding-block:70px}
+  .hero h1{font-size:15vw}
+  h2{font-size:13vw}
+  .facts,.leaks{grid-template-columns:1fr}
+  .facts div,.leaks article{padding-left:0!important;border-right:0!important;border-bottom:1px solid var(--line)}
+  .bar-row,.scale{grid-template-columns:80px minmax(0,1fr) 84px;gap:10px}
+  .bar-row strong{font-size:20px}
+  .links{flex-direction:column}
+  .links a,.links a:not(:first-child){padding:18px 0;border-right:0;border-bottom:1px solid var(--ink)}
+  .results{padding:24px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+
+<header class="wrap nav">
+  <a class="monogram" href="https://vincentgaboret.fr">VG<span>.</span></a>
+  <nav aria-label="Sommaire">
+    <a href="#constat">Constat</a><a href="#fuites">Fuites</a><a href="#calcul">Calcul</a><a href="#plan">Plan</a>
+  </nav>
+  <span class="label">Audit · 30.09.2026</span>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div class="kicker label"><i></i> SAS Alain Javault · Lucé (28) · site hors ligne</div>
+    <h1>Site hors ligne.<br>Clients perdus.<br><em>Chiffrons-le.</em></h1>
+    <div class="hero-grid">
+      <p>Audit de la présence en ligne de SAS Alain Javault (terrassement, transport, démolition, matériaux) et estimation de ce que son absence sur le web lui coûte chaque année. Toutes les hypothèses sont modifiables dans le calculateur plus bas.</p>
+      <div class="verdict">
+        <span class="label">Chiffre d’affaires manqué · scénario central</span>
+        <strong class="num" id="hero-total">124 k€</strong>
+        <small>par an · fourchette <span id="hero-range">14 k€ à 397 k€</span></small>
+      </div>
+    </div>
+    <div class="orbit o1" aria-hidden="true"></div><div class="orbit o2" aria-hidden="true"></div>
+  </div>
+
+  <div class="wrap alert" role="note">
+    <b>Constat du 30 septembre 2026</b>
+    <span><code>www.alain-javault.fr</code> affiche une page d’erreur Wix « ConnectYourDomain » (HTTP 404). Dernière version fonctionnelle archivée : 6 août 2025.</span>
+  </div>
+
+  <section class="wrap dark" id="contexte">
+    <span class="label">01 — L’entreprise</span>
+    <h2>Une PME qui grandit.<br><em>Invisible en ligne.</em></h2>
+    <p class="lede">Les comptes publics montrent une entreprise solide, qui a gagné 41 % de chiffre d’affaires en un an. Le résultat net est pourtant passé dans le rouge en 2025, alors que les demandes entrantes gratuites (le web) sont aujourd’hui à zéro.</p>
+    <div class="facts">
+      <div><b>CA 2025</b><strong class="num">11,3 M€</strong><span>contre 8,03 M€ en 2024 (+41 %)</span></div>
+      <div><b>Résultat net 2025</b><strong class="num neg">−108 k€</strong><span>contre +128 k€ en 2024 et +216 k€ en 2023</span></div>
+      <div><b>Effectif</b><strong class="num">47</strong><span>salariés en 2025 · métiers en tension (conducteurs PL et engins)</span></div>
+      <div><b>Depuis</b><strong class="num">2004</strong><span>Groupe Piard président depuis le 30/06/2023</span></div>
+    </div>
+    <p class="insight">Un chantier gagné grâce au web va presque entièrement <em>à la marge</em> : il ne coûte ni commercial ni appel d’offres.</p>
+  </section>
+
+  <section class="wrap" id="constat">
+    <span class="label">02 — Constat technique</span>
+    <h2>Ce que voient Google<br><em>et vos clients.</em></h2>
+    <p class="lede">Analyse du site actuel (état le 30/09/2026) et des 9 pages de l’ancien site Wix archivées, plus les enregistrements DNS du domaine.</p>
+    <div class="findings">
+      <article class="finding">
+        <span class="chip c-crit">Critique</span>
+        <h3>Le site n’existe plus</h3>
+        <div><p>Le domaine pointe toujours vers Wix, mais aucun site n’y est rattaché. Un prospect qui tape l’adresse, ou qui clique depuis Google Maps ou un annuaire, tombe sur une page d’erreur Wix.</p><p><span class="proof">HTTP/2 404 · « ConnectYourDomain Error | Wix.com »</span></p></div>
+      </article>
+      <article class="finding">
+        <span class="chip c-crit">Critique</span>
+        <h3>Aucun contenu que Google puisse classer</h3>
+        <div><p>Même en ligne, l’ancien site ne décrivait aucun service. Les 9 pages n’affichaient que le menu et l’adresse, avec le même titre partout, aucun titre H1, et des adresses du type <span class="proof">/blank-j7t1m</span>.</p><p>Sur « terrassement Chartres » ou « location camion benne avec chauffeur 28 », l’entreprise ne pouvait donc pas apparaître.</p></div>
+      </article>
+      <article class="finding">
+        <span class="chip c-high">Élevé</span>
+        <h3>Aucun moyen de demander un devis</h3>
+        <div><p>Pas de formulaire, pas de bouton d’appel sur mobile, et un numéro de fax affiché au même niveau que le téléphone. Un visiteur pressé part chez le concurrent qui répond en un clic.</p></div>
+      </article>
+      <article class="finding">
+        <span class="chip c-high">Élevé</span>
+        <h3>Recrutement invisible</h3>
+        <div><p>47 salariés dans des métiers où les candidats sont rares, et aucune page emploi. Un conducteur d’engins qui cherche l’entreprise ne trouve rien, ce qui prolonge l’intérim et les annonces payantes.</p></div>
+      </article>
+      <article class="finding">
+        <span class="chip c-mid">Moyen</span>
+        <h3>Images lourdes et muettes</h3>
+        <div><p>Photos envoyées en 2 784 px (1,8 à 2,2 Mo chacune) et 53 images sans texte alternatif. Chargement lent sur mobile en 4G de chantier, et aucun signal pour Google Images.</p></div>
+      </article>
+      <article class="finding">
+        <span class="chip c-mid">Moyen</span>
+        <h3>DNS à nettoyer, image de marque datée</h3>
+        <div><p>Les serveurs de noms mélangent OVH et Wix, et le domaine pointe vers un abonnement terminé. Le logo en Times italique bleu ne transmet ni la taille ni le sérieux d’une PME de 11 M€.</p></div>
+      </article>
+      <article class="finding">
+        <span class="chip c-ok">Correct</span>
+        <h3>Domaine et e-mail sont sains</h3>
+        <div><p>Le domaine est renouvelé chez OVH jusqu’au 08/03/2027, et la messagerie Microsoft 365 fonctionne. Remettre un site en ligne se fait donc sans risque pour les e-mails.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="wrap acid" id="fuites">
+    <span class="label">03 — Où part l’argent</span>
+    <h2>Quatre fuites,<br><em>une seule cause.</em></h2>
+    <div class="leaks">
+      <article><b>Fuite 1</b><h3>Devis entrants</h3><p>Particuliers qui construisent, artisans, promoteurs : ils cherchent « terrassement + ville » sur Google et appellent les trois premiers résultats.</p><span class="amount num" id="leak-1">≈ 100 k€/an</span></article>
+      <article><b>Fuite 2</b><h3>Vente de matériaux</h3><p>Sable, granulats, concassé recyclé : un achat local et rapide, décidé sur mobile. Sans site ni prix indicatif, la vente va au négoce voisin.</p><span class="amount num" id="leak-2">≈ 25 k€/an</span></article>
+      <article><b>Fuite 3</b><h3>Recrutement</h3><p>Chaque poste pourvu par intérim prolongé ou annonce payante au lieu d’une candidature directe coûte plusieurs milliers d’euros.</p><span class="amount num" id="leak-3">≈ 7,5 k€/an</span></article>
+      <article><b>Fuite 4</b><h3>Crédibilité</h3><p>Acheteurs publics, maîtres d’œuvre et banques vérifient le site avant de consulter. Une page d’erreur fait douter de la solidité de l’entreprise.</p><span class="amount">Non chiffré</span></article>
+    </div>
+  </section>
+
+  <section class="wrap" id="calcul">
+    <span class="label">04 — Calculateur</span>
+    <h2>Vos hypothèses,<br><em>votre chiffre.</em></h2>
+    <p class="lede">Choisissez un scénario ou réglez chaque curseur. Les valeurs de départ sont des estimations prudentes pour une zone comme Chartres et l’Eure-et-Loir ; elles se valident ensuite avec Google Search Console et le suivi des appels.</p>
+    <div class="calc">
+      <div>
+        <div class="presets" role="group" aria-label="Scénarios">
+          <button type="button" data-preset="prudent" aria-pressed="false">Prudent</button>
+          <button type="button" data-preset="central" aria-pressed="true">Central</button>
+          <button type="button" data-preset="ambitieux" aria-pressed="false">Ambitieux</button>
+        </div>
+        <div class="field"><label for="i-search">Recherches locales par mois</label><output for="i-search" id="o-search"></output><input type="range" id="i-search" min="200" max="4000" step="100"><small>terrassement, démolition, camion benne avec chauffeur, sable et gravier, évacuation de terre… à 30 km de Lucé</small></div>
+        <div class="field"><label for="i-capture">Part captée par un site bien placé</label><output for="i-capture" id="o-capture"></output><input type="range" id="i-capture" min="2" max="30" step="1"><small>visites obtenues sur ces recherches (top 3 Google + fiche Google Business)</small></div>
+        <div class="field"><label for="i-contact">Visiteurs qui appellent ou demandent un devis</label><output for="i-contact" id="o-contact"></output><input type="range" id="i-contact" min="1" max="15" step="0.5"></div>
+        <div class="field"><label for="i-win">Devis signés</label><output for="i-win" id="o-win"></output><input type="range" id="i-win" min="10" max="60" step="1"></div>
+        <div class="field"><label for="i-basket">Montant moyen d’un chantier ou d’une commande</label><output for="i-basket" id="o-basket"></output><input type="range" id="i-basket" min="500" max="15000" step="250"></div>
+        <div class="field"><label for="i-margin">Marge sur ces chantiers</label><output for="i-margin" id="o-margin"></output><input type="range" id="i-margin" min="10" max="45" step="1"></div>
+        <div class="field"><label for="i-hires">Recrutements par an rendus plus coûteux</label><output for="i-hires" id="o-hires"></output><input type="range" id="i-hires" min="0" max="10" step="1"><small>compté à 2 500 € de surcoût par poste (intérim prolongé, annonces payantes)</small></div>
+      </div>
+      <aside class="results" aria-live="polite">
+        <span class="label">Chiffre d’affaires manqué par an</span>
+        <div class="big num" id="r-annual">—</div>
+        <p class="sub" id="r-sub">—</p>
+        <dl class="rows">
+          <div><dt>Demandes de devis perdues / mois</dt><dd id="r-leads">—</dd></div>
+          <div><dt>Chantiers perdus / mois</dt><dd id="r-jobs">—</dd></div>
+          <div><dt>CA manqué / mois</dt><dd id="r-month">—</dd></div>
+          <div class="hl"><dt>Marge perdue / an (dont recrutement)</dt><dd id="r-margin">—</dd></div>
+          <div><dt>Coût de chaque jour sans site</dt><dd id="r-day">—</dd></div>
+          <div><dt>Depuis le 6 août 2025 (≈ 14 mois, au plus)</dt><dd id="r-since">—</dd></div>
+          <div><dt>Part du déficit 2025 (−108 k€) couverte</dt><dd id="r-deficit">—</dd></div>
+        </dl>
+        <div class="roi">
+          <label for="i-cost">Budget du nouveau site (€ HT) <input id="i-cost" type="number" min="0" step="100" value="4900" inputmode="numeric"></label>
+          <p id="r-roi">—</p>
+        </div>
+      </aside>
+    </div>
+
+    <div class="scen">
+      <h3>Les trois scénarios côte à côte</h3>
+      <div id="bars"></div>
+      <div class="scale" aria-hidden="true"><span></span><div id="scale"></div><span></span></div>
+    </div>
+  </section>
+
+  <section class="wrap dark" id="plan">
+    <span class="label">05 — Plan d’action</span>
+    <h2>Rebrancher<br><em>le robinet.</em></h2>
+    <p class="lede">L’ordre compte : chaque étape s’appuie sur la précédente. Le nouveau site est déjà conçu et prêt à être mis en ligne sur le domaine existant.</p>
+    <div class="timeline">
+      <article><time>Semaine 1</time><div><h3>Remettre le site en ligne</h3><p>Nettoyer le DNS chez OVH, publier le nouveau site sur www.alain-javault.fr en HTTPS, déclarer le sitemap dans Google Search Console. Les e-mails ne sont pas touchés.</p></div></article>
+      <article><time>Semaine 2</time><div><h3>Fiche Google Business Profile</h3><p>Créer ou reprendre la fiche, catégories « entreprise de terrassement » et « transport », horaires, photos du parc, lien vers le formulaire de devis.</p></div></article>
+      <article><time>Mois 1</time><div><h3>Une page par métier et par ville</h3><p>Terrassement à Chartres, location de pelle avec chauffeur en Eure-et-Loir, vente de sable à Lucé… Chaque page répond à une recherche réelle.</p></div></article>
+      <article><time>Mois 2 à 3</time><div><h3>Preuves et avis</h3><p>Photos de chantiers réels, demandes d’avis Google après chaque chantier, page recrutement tenue à jour avec les postes ouverts.</p></div></article>
+      <article><time>Mois 3 et après</time><div><h3>Mesurer et ajuster</h3><p>Suivi mensuel des recherches, des appels et des formulaires. Les hypothèses du calculateur sont remplacées par les vrais chiffres.</p></div></article>
+    </div>
+  </section>
+
+  <section class="wrap" id="methode">
+    <span class="label">06 — Méthode &amp; sources</span>
+    <h2>D’où viennent<br><em>ces chiffres.</em></h2>
+    <div class="method">
+      <div>
+        <h3>Faits constatés</h3>
+        <ul>
+          <li>Comptes et dirigeants : Pappers, SIREN 480 058 379 (CA, résultat net, effectif 2021 à 2025).</li>
+          <li>État du site : requête HTTP sur www.alain-javault.fr le 30/09/2026.</li>
+          <li>Ancien site : captures Wayback Machine (9 pages, décembre 2022) et historique des captures jusqu’au 06/08/2025.</li>
+          <li>Domaine et e-mail : WHOIS OVH et enregistrements DNS (NS, A, MX) le 30/09/2026.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Hypothèses à valider</h3>
+        <ul>
+          <li>Volumes de recherche : estimations pour une agglomération d’environ 140 000 habitants, à confirmer avec Google Keyword Planner.</li>
+          <li>Taux de clic, de contact et de signature : ordres de grandeur courants pour les services B2B et B2C locaux.</li>
+          <li>Montant moyen : mélange de petits chantiers de particuliers, de commandes de matériaux et de locations à la journée.</li>
+          <li>La fiche Google Business Profile n’a pas été vérifiée dans cet audit.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap acid cta">
+    <span class="label">Un site, un audit, une suite ?</span>
+    <h2>Remettons Javault<br><em>sur la carte.</em></h2>
+    <div class="links">
+      <a href="https://vincentgaboret.fr" target="_blank" rel="noreferrer">vincentgaboret.fr ↗</a>
+      <a href="https://www.linkedin.com/in/vincent-gaboret" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+      <a href="https://www.malt.fr/profile/vincentdelatouche" target="_blank" rel="noreferrer">Malt ↗</a>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <a class="monogram" href="https://vincentgaboret.fr">VG<span>.</span></a>
+  <p>Audit réalisé par Vincent Gaboret · Développeur full-stack · Paris</p>
+  <span>Septembre 2026</span>
+</footer>
+
+<script>
+(()=>{
+  const PRESETS={
+    prudent:{search:600,capture:8,contact:4,win:25,basket:2500,margin:25,hires:1},
+    central:{search:1200,capture:12,contact:6,win:30,basket:4000,margin:25,hires:3},
+    ambitieux:{search:1800,capture:15,contact:7,win:35,basket:5000,margin:25,hires:4}
+  };
+  const HIRE_COST=2500, DEFICIT=108000, MONTHS_OFFLINE=14, MATERIAL_SHARE=.2;
+  const keys=['search','capture','contact','win','basket','margin','hires'];
+  const $=id=>document.getElementById(id);
+  const eur=n=>new Intl.NumberFormat('fr-FR',{maximumFractionDigits:0}).format(Math.round(n))+' €';
+  const k=n=>n>=1e6?(n/1e6).toFixed(2).replace('.',',')+' M€':Math.round(n/1000).toLocaleString('fr-FR')+' k€';
+  const dec=n=>n.toLocaleString('fr-FR',{maximumFractionDigits:1});
+  const fmt={search:v=>v.toLocaleString('fr-FR'),capture:v=>v+' %',contact:v=>dec(v)+' %',win:v=>v+' %',basket:v=>eur(v),margin:v=>v+' %',hires:v=>String(v)};
+
+  function compute(p){
+    const leads=p.search*p.capture/100*p.contact/100;
+    const jobs=leads*p.win/100;
+    const month=jobs*p.basket;
+    const annual=month*12;
+    const recruit=p.hires*HIRE_COST;
+    const margin=annual*p.margin/100+recruit;
+    return {leads,jobs,month,annual,recruit,margin};
+  }
+  const read=()=>Object.fromEntries(keys.map(key=>[key,parseFloat($('i-'+key).value)]));
+
+  function render(){
+    const p=read(), r=compute(p);
+    keys.forEach(key=>$('o-'+key).textContent=fmt[key](p[key]));
+    $('r-annual').textContent=k(r.annual);
+    $('r-sub').textContent='soit environ '+(r.annual/113000).toLocaleString('fr-FR',{maximumFractionDigits:1})+' % du chiffre d’affaires 2025';
+    $('r-leads').textContent=dec(r.leads);
+    $('r-jobs').textContent=dec(r.jobs);
+    $('r-month').textContent=eur(r.month);
+    $('r-margin').textContent=eur(r.margin);
+    $('r-day').textContent=eur(r.annual/365)+' de CA';
+    $('r-since').textContent=k(r.month*MONTHS_OFFLINE)+' de CA';
+    $('r-deficit').textContent=Math.round(r.margin/DEFICIT*100)+' %';
+    const cost=Math.max(0,parseFloat($('i-cost').value)||0);
+    const marginPerDay=r.margin/365;
+    $('r-roi').innerHTML=marginPerDay>0?'Remboursé en <span>'+Math.max(1,Math.ceil(cost/marginPerDay))+' jours</span> de marge retrouvée.':'Ajustez les hypothèses pour estimer le retour.';
+    $('hero-total').textContent=k(r.annual);
+    $('leak-1').textContent='≈ '+k(r.annual*(1-MATERIAL_SHARE))+'/an';
+    $('leak-2').textContent='≈ '+k(r.annual*MATERIAL_SHARE)+'/an';
+    $('leak-3').textContent='≈ '+(r.recruit/1000).toLocaleString('fr-FR',{maximumFractionDigits:1})+' k€/an';
+    const match=Object.entries(PRESETS).find(([,v])=>keys.every(key=>v[key]===p[key]));
+    document.querySelectorAll('[data-preset]').forEach(b=>b.setAttribute('aria-pressed',String(!!match&&b.dataset.preset===match[0])));
+    drawBars(match?match[0]:null, r.annual);
+  }
+
+  function drawBars(active, custom){
+    const rows=Object.entries(PRESETS).map(([name,p])=>({name,value:compute(p).annual}));
+    if(!active) rows.push({name:'Vos réglages',value:custom,custom:true});
+    const max=Math.ceil(Math.max(...rows.map(r=>r.value))/100000)*100000||100000;
+    $('bars').innerHTML=rows.map(r=>`<div class="bar-row${(r.name===active||r.custom)?' active':''}"><span>${r.name}</span><div class="track"><div class="fill" style="width:${(r.value/max*100).toFixed(2)}%"></div></div><strong>${k(r.value)}</strong></div>`).join('');
+    const ticks=[0,.25,.5,.75,1].map(t=>`<span>${k(max*t)}</span>`).join('');
+    $('scale').innerHTML=ticks;
+    const lo=compute(PRESETS.prudent).annual, hi=compute(PRESETS.ambitieux).annual;
+    $('hero-range').textContent=k(lo)+' à '+k(hi);
+  }
+
+  function apply(name){const p=PRESETS[name];keys.forEach(key=>$('i-'+key).value=p[key]);render()}
+  document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>apply(b.dataset.preset)));
+  keys.forEach(key=>$('i-'+key).addEventListener('input',render));
+  $('i-cost').addEventListener('input',render);
+  apply('central');
+})();
+</script>

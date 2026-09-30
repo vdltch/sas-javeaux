@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.alain-javault.fr/sitemap.xml
